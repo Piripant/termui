@@ -1,3 +1,4 @@
+use gelements;
 use gelements::UiElement;
 use std;
 
@@ -28,46 +29,36 @@ fn add_margins (element: &UiElement, to_render: &mut String) {
     
     // Vertical Margins
     
-    // Right Margin
-    if props.right_margin.enabled {
+    // Left Margin
+    if props.left_margin.enabled {
         let mut lastch = ' ';
         let mut to_ren = "".to_string();
         to_ren.push_str("| ");
         
-        for ch in to_render.chars() {
+        for (i, ch) in to_render.chars().enumerate() {
             if lastch == '\n' {
                 to_ren.push_str("| ");
             }
             
             to_ren.push(ch);
+            
+            // Lastch is never the last char of the string. So the last char of the string needs a separate case
+            if i+1 == to_render.len() && ch == '\n' {
+                to_ren.push_str("| ");
+            }
+            
             lastch = ch;
         }
         
         *to_render = to_ren;
     }
     
-    // Left Margin
-    if props.left_margin.enabled {
+    // Right Margin
+    if props.right_margin.enabled {
+        let mut max_line_len = gelements::get_element_width(to_render.clone());
+        
         let mut to_ren = "".to_string();
-        let mut max_line_len = 0;
         let mut line_len = 0;
-        
-        for (i, ch) in to_render.chars().enumerate() {
-            line_len += 1;
-            if ch == '\n' || i+1 == to_render.len() {
-                if line_len > max_line_len {
-                    max_line_len = line_len;
-                    
-                    if ch == '\n' {
-                        max_line_len -= 1; // -1 because it counted the '\n'
-                    }
-                }
-                
-                line_len = 0;
-            }
-        }
-        
-        line_len = 0;
         for (i, ch) in to_render.chars().enumerate() {
             line_len += 1;
             
@@ -79,9 +70,11 @@ fn add_margins (element: &UiElement, to_render: &mut String) {
                     chars_to_place += 1; // It needs one more space
                 }
                 
-                if next_out_bound {
+                // If the next char is out of bound, and this char isn't a newline (it would start a new line and then draw the border otherwise)
+                if next_out_bound && ch != '\n' {
                     to_ren.push(ch);
                 }
+                
                 
                 // Places spaces until the max line length is reached
                 for _ in 0..chars_to_place {
@@ -92,7 +85,7 @@ fn add_margins (element: &UiElement, to_render: &mut String) {
                 line_len = 0;
             }
             
-            if !next_out_bound {
+            if !next_out_bound || (next_out_bound && ch == '\n') {
                 to_ren.push(ch);
             }
         }

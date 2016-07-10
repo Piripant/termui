@@ -6,11 +6,12 @@ use termui::window;
 use termui::combobox;
 use termui::textarea;
 use termui::loadingbar;
+use termui::gelements;
 use termui::gelements::UiElement;
 
 fn main () {
     let mut combo1 = combobox::ComboBox::new("Calettamento");
-    let mut text1 = textarea::TextArea::new("Descrizione", "Comunque Lorenzo e' Mendosa De Piava".to_string());
+    let mut text1 = textarea::TextArea::new("Descrizione", "Comunque Lorenzo e' Mendosa De Piava\n".to_string());
     let mut loading1 = loadingbar::LoadingBar::new("Download", 32);
     
     combo1.add_option("Muovi la caletta caletta!");
@@ -18,11 +19,11 @@ fn main () {
     combo1.add_option("Muovi la caletta caletta!");
     combo1.add_option("Ohhhhh macaletta!");
     
-    text1.props.bottom_margin.enabled = false;
     loading1.props.upper_margin.enabled = false;
     
-    loading1.show_percent = true;
-    loading1.set_percent(50);
+    loading1.length = gelements::get_element_width(text1.render());
+    loading1.show_percent = false;
+    loading1.set_percent(75);
     
     window::render(vec![&combo1, &text1, &loading1]);
 }
