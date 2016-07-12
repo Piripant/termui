@@ -1,6 +1,6 @@
 pub struct UiProps {
-    pub name: String,
-    pub show_name: bool,
+    pub title: String,
+    pub show_title: bool,
     pub right_margin: Margin,
     pub left_margin: Margin,
     pub bottom_margin: Margin,
@@ -8,10 +8,10 @@ pub struct UiProps {
 }
 
 impl UiProps {
-    pub fn new (name: String) -> UiProps {
+    pub fn new (title: String) -> UiProps {
         UiProps {
-            name: name,
-            show_name: true,
+            title: title,
+            show_title: true,
             right_margin: Margin::new(),
             left_margin: Margin::new(),
             bottom_margin: Margin::new(),

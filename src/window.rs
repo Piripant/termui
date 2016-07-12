@@ -13,8 +13,8 @@ pub fn render (elements: Vec<&UiElement>) {
         let mut to_render = el.render();
         
         if to_render.len() > 0 {
-            if el.get_props().show_name {
-                to_render = el.get_props().name.clone() + ":\n" + &to_render.clone();
+            if el.get_props().show_title {
+                to_render = el.get_props().title.clone() + "\n" + &to_render.clone();
             }
             
             add_margins(el, &mut to_render);

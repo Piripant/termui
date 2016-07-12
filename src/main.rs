@@ -5,27 +5,21 @@ extern crate termui;
 use termui::window;
 use termui::combobox;
 use termui::textarea;
-use termui::loadingbar;
-use termui::gelements;
-use termui::gelements::UiElement;
 
 fn main () {
-    let mut combo1 = combobox::ComboBox::new("Calettamento");
-    let mut text1 = textarea::TextArea::new("Descrizione", "Comunque Lorenzo e' Mendosa De Piava\n".to_string());
-    let mut loading1 = loadingbar::LoadingBar::new("Download", 32);
+    let mut text1 = textarea::TextArea::new("Description title:", "Here are some options! \n".to_string());
+    let mut combo1 = combobox::ComboBox::new("A title which will never be displayed :(");
+
+    combo1.props.show_title = false;
     
-    combo1.add_option("Muovi la caletta caletta!");
-    combo1.add_option("Muovi la caletta caletta!");
-    combo1.add_option("Muovi la caletta caletta!");
-    combo1.add_option("Ohhhhh macaletta!");
-    
-    loading1.props.upper_margin.enabled = false;
-    
-    loading1.length = gelements::get_element_width(text1.render());
-    loading1.show_percent = false;
-    loading1.set_percent(75);
-    
-    window::render(vec![&combo1, &text1, &loading1]);
+    text1.props.bottom_margin.enabled = false;
+    combo1.props.upper_margin.enabled = false;
+
+    combo1.add_option("A first option");
+    combo1.add_option("A second option");
+    combo1.add_option("Even a third option!");
+
+    window::render(vec![&text1, &combo1]);
 }
 
 //let text: &mut textarea::TextArea = match text1.as_any().downcast_mut::<&mut textarea::TextArea>() {
